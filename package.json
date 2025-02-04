@@ -1,6 +1,6 @@
 {
   "name": "eartrainer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A command-line ear training app for music enthusiasts.",
   "author": "yusukemiyawaki",
   "type": "module",
@@ -10,7 +10,7 @@
     "url": "git+https://github.com/Miya096jp/eartrainer.git"
   },
   "bin": {
-    "eartrainer": "./index.js"
+    "eartrainer": "./bin/index.js"
   },
   "scripts": {
     "fix": "prettier --write . && eslint --fix .",

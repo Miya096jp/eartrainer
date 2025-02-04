@@ -2,7 +2,7 @@
   "name": "eartrainer",
   "version": "1.0.1",
   "description": "A command-line ear training app for music enthusiasts.",
-  "main": "./bin/index.js"
+  "main": "./bin/index.js",
   "author": "yusukemiyawaki",
   "type": "module",
   "license": "MIT",

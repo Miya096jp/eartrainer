@@ -1,6 +1,6 @@
 {
   "name": "eartrainer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A command-line ear training app for music enthusiasts.",
   "main": "./bin/index.js",
   "author": "yusukemiyawaki",

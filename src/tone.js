@@ -1,7 +1,7 @@
 import tone from "tonegenerator";
 import Speaker from "speaker";
 
-export default class TonePlayer {
+export default class Tone {
   constructor(root_freq, top_freq, volume) {
     this.root_freq = root_freq;
     this.top_freq = top_freq;

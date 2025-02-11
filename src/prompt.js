@@ -1,7 +1,7 @@
 import pkg from "enquirer";
 const { Select } = pkg;
 
-export default class PromptManager {
+export default class Prompt {
   constructor(choices, i, answer, time_limit) {
     this.prompt = null;
     this.choices = choices;
@@ -10,10 +10,10 @@ export default class PromptManager {
     this.time_limit = time_limit;
   }
 
-  async runQuestion() {
-    await this.#setPrompt();
+  async run_question() {
+    await this.#set_prompt();
     const result = await Promise.race([
-      this.#runPrompt(),
+      this.#run_prompt(),
       this.#timer(this.time_limit),
     ]);
     if (result === "timeup") {
@@ -38,14 +38,14 @@ export default class PromptManager {
     }
   }
 
-  async #setPrompt() {
+  async #set_prompt() {
     this.prompt = new Select({
       message: `Question${this.question_no}`,
       choices: this.choices,
     });
   }
 
-  async #runPrompt() {
+  async #run_prompt() {
     const user_answer = await this.prompt.run();
     return user_answer;
   }

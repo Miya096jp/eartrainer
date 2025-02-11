@@ -1,9 +1,9 @@
-import PromptManager from "./prompt_manager.js";
-import TonePlayer from "./tone_player.js";
-import ScoreKeeper from "./score_keeper.js";
-import QuizComponents from "./quiz_components.js";
+import Prompt from "./prompt.js";
+import Tone from "./tone.js";
+import Score from "./score.js";
+import Quiz from "./quiz.js";
 
-export default class EarTrainerController {
+export default class EarTraining {
   constructor(all_notes_and_frequencies, argv) {
     this.all_notes_and_frequencies = all_notes_and_frequencies;
     this.current_notes_and_frequencies = null;
@@ -15,29 +15,29 @@ export default class EarTrainerController {
 
   async exec() {
     try {
-      const score_keeper = new ScoreKeeper(this.number_of_questions);
+      const score_keeper = new Score(this.number_of_questions);
       this.#set_game_mode();
       for (let i = 0; i < this.number_of_questions; i++) {
-        const quiz_components = new QuizComponents(
+        const quiz = new Quiz(
           this.current_notes_and_frequencies,
         );
         let [root_freq, top_note, top_freq, choices] =
-          quiz_components.get_quiz_components();
-        const tone_player = new TonePlayer(
+          quiz.get_quiz_components();
+        const tone_player = new Tone(
           root_freq,
           top_freq,
           this.#set_volume(),
         );
         await tone_player.play_tones();
-        const prompt_manager = new PromptManager(
+        const prompt_manager = new Prompt(
           choices,
           i,
           top_note,
           this.#set_time_limit(),
         );
-        const result = await prompt_manager.runQuestion();
-        score_keeper.saveResult(result);
-        score_keeper.printMessage();
+        const result = await prompt_manager.run_question();
+        score_keeper.save_result(result);
+        score_keeper.print_message();
       }
       score_keeper.printFinalScore(this.number_of_questions);
     } catch (err) {

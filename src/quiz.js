@@ -1,4 +1,4 @@
-export default class QuizComponents {
+export default class Quiz {
   constructor(current_notes_and_frequencies) {
     this.current_notes_and_frequencies = current_notes_and_frequencies;
     this.root_freq = null;

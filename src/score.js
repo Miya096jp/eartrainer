@@ -1,21 +1,21 @@
-export default class ScoreKeeper {
+export default class Score {
   constructor() {
     this.message = "";
     this.score_sheet = [];
     this.point = 0;
   }
 
-  saveResult(result) {
+  save_result(result) {
     this.message = result.message;
     this.score_sheet.push(result.score);
     this.point += result.point;
   }
 
-  printMessage() {
+  print_message() {
     console.log(this.message);
   }
 
-  printFinalScore(number_of_questions) {
+  print_final_score(number_of_questions) {
     console.log("<Result>");
     console.log(`${this.point}/${number_of_questions}`);
     console.log(this.score_sheet.join("\n"));

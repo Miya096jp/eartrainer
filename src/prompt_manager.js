@@ -21,7 +21,7 @@ export default class PromptManager {
       return {
         message: `Timeup! the correct answer is ${this.answer}`,
         score: `Q${this.question_no}:×(${this.answer})`,
-        point: 1,
+        point: 0,
       };
     } else if (result === this.answer) {
       return {
@@ -33,7 +33,7 @@ export default class PromptManager {
       return {
         message: `incorrect! the correct answer is ${this.answer}`,
         score: `Q${this.question_no}:×(${this.answer})`,
-        point: 1,
+        point: 0,
       };
     }
   }

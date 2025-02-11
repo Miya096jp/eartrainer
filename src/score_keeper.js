@@ -8,7 +8,7 @@ export default class ScoreKeeper {
   saveResult(result) {
     this.message = result.message;
     this.score_sheet.push(result.score);
-    this.point += 1;
+    this.point += result.point;
   }
 
   printMessage() {

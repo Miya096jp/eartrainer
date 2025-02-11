@@ -15,31 +15,20 @@ export default class EarTraining {
 
   async exec() {
     try {
-      const score_keeper = new Score(this.number_of_questions);
+      const score = new Score(this.number_of_questions);
       this.#set_game_mode();
       for (let i = 0; i < this.number_of_questions; i++) {
-        const quiz = new Quiz(
-          this.current_notes_and_frequencies,
-        );
+        const quiz = new Quiz(this.current_notes_and_frequencies);
         let [root_freq, top_note, top_freq, choices] =
           quiz.get_quiz_components();
-        const tone_player = new Tone(
-          root_freq,
-          top_freq,
-          this.#set_volume(),
-        );
-        await tone_player.play_tones();
-        const prompt_manager = new Prompt(
-          choices,
-          i,
-          top_note,
-          this.#set_time_limit(),
-        );
-        const result = await prompt_manager.run_question();
-        score_keeper.save_result(result);
-        score_keeper.print_message();
+        const tone = new Tone(root_freq, top_freq, this.#set_volume());
+        await tone.play_tones();
+        const prompt = new Prompt(choices, i, top_note, this.#set_time_limit());
+        const result = await prompt.run_question();
+        score.save_result(result);
+        score.print_message();
       }
-      score_keeper.printFinalScore(this.number_of_questions);
+      score.print_final_score(this.number_of_questions);
     } catch (err) {
       console.error(err.message);
       console.error(err.stack);

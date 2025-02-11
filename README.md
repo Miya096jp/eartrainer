@@ -1,4 +1,5 @@
 # eartrainer
+
 A command-line ear training app for music enthusiasts.
 
 ## Install
@@ -16,6 +17,7 @@ $ npx eartrainer
 ```
 
 ### Rules
+
 - Listen to two-voice chords and select the correct intervals.
 - There are two game modes: default mode and advance mode. In default mode, the key is fixed as F, while in advance mode, all 12 keys are randomly chosen.
 

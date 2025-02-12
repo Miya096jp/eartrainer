@@ -1,64 +1,31 @@
+import Prompt from "./prompt.js";
+import Tone from "./tone.js";
+import NoteAndFrequency from "./note_and_frequency.js";
+import Choices from "./choices.js";
+
 export default class Quiz {
-  constructor(current_notes_and_frequencies) {
+  constructor(current_notes_and_frequencies, volume, i, time_limit) {
     this.current_notes_and_frequencies = current_notes_and_frequencies;
-    this.root_freq = null;
-    this.top_note = null;
-    this.top_freq = null;
-    this.choices = null;
+    this.volume = volume;
+    this.i = i;
+    this.time_limit = time_limit;
   }
 
-  get_quiz_components() {
-    this.#get_root_frequency();
-    this.#get_top_note_and_frequency();
-    this.#build_choices();
-    return [this.root_freq, this.top_note, this.top_freq, this.choices];
-  }
-
-  #get_root_frequency() {
-    const root_note_and_frequency = this.current_notes_and_frequencies.find(
-      (note_and_frequency) => {
-        return Object.keys(note_and_frequency)[0] === "Root";
-      },
+  async set() {
+    const note_and_frequency = new NoteAndFrequency(this.current_notes_and_frequencies);
+    const root_freq = note_and_frequency.root_freq;
+    const answer_freq = note_and_frequency.answer_freq;
+    const answer_note = note_and_frequency.answer_note;
+    const extra_notes = note_and_frequency.extra_notes;
+    const choices = new Choices(answer_note, extra_notes).build();
+    const tone = new Tone(root_freq, answer_freq, this.volume);
+    await tone.play();
+    const prompt = new Prompt(
+      choices,
+      this.i,
+      answer_note,
+      this.time_limit,
     );
-    this.root_freq = Object.values(root_note_and_frequency)[0];
-  }
-
-  #get_candidates_of_choices() {
-    return this.current_notes_and_frequencies.filter((note_and_frequency) => {
-      return Object.keys(note_and_frequency)[0] !== "Root";
-    });
-  }
-
-  #get_top_note_and_frequency() {
-    const candidates = this.#get_candidates_of_choices();
-    const selected_candidate =
-      candidates[Math.floor(Math.random() * candidates.length)];
-    const [selected_note] = Object.keys(selected_candidate);
-    const [selected_frequency] = Object.values(selected_candidate);
-    this.top_note = selected_note;
-    this.top_freq = selected_frequency;
-  }
-
-  #build_choices() {
-    const candidates = this.#get_candidates_of_choices();
-    let choices = [this.top_note];
-    while (choices.length < 4) {
-      const selected_candidate =
-        candidates[Math.floor(Math.random() * candidates.length)];
-      const [selected_note] = Object.keys(selected_candidate);
-      if (choices.includes(selected_note)) {
-        continue;
-      }
-      choices.push(selected_note);
-    }
-    this.#shuffle(choices);
-    this.choices = choices;
-  }
-
-  #shuffle(choices) {
-    for (let i = choices.length - 1; i >= 0; i--) {
-      const randomIndex = Math.floor(Math.random() * (i + 1));
-      [choices[i], choices[randomIndex]] = [choices[randomIndex], choices[i]];
-    }
+    return await prompt.run();
   }
 }

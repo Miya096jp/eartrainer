@@ -10,7 +10,7 @@ export default class Prompt {
     this.time_limit = time_limit;
   }
 
-  async run_question() {
+  async run() {
     await this.#set_prompt();
     const result = await Promise.race([
       this.#run_prompt(),

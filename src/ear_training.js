@@ -1,5 +1,3 @@
-import Prompt from "./prompt.js";
-import Tone from "./tone.js";
 import Score from "./score.js";
 import Quiz from "./quiz.js";
 
@@ -18,13 +16,8 @@ export default class EarTraining {
       const score = new Score(this.number_of_questions);
       this.#set_game_mode();
       for (let i = 0; i < this.number_of_questions; i++) {
-        const quiz = new Quiz(this.current_notes_and_frequencies);
-        let [root_freq, top_note, top_freq, choices] =
-          quiz.get_quiz_components();
-        const tone = new Tone(root_freq, top_freq, this.#set_volume());
-        await tone.play_tones();
-        const prompt = new Prompt(choices, i, top_note, this.#set_time_limit());
-        const result = await prompt.run_question();
+        const quiz = new Quiz(this.current_notes_and_frequencies, this.#set_volume(), i, this.#set_time_limit());
+        const result = await quiz.set();
         score.save_result(result);
         score.print_message();
       }

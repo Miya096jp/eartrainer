@@ -12,7 +12,7 @@ export default class Tone {
     this.volume = volume;
   }
 
-  async play_tones() {
+  async play() {
     this.#generate_tones();
     await this.#play_count();
     await this.#amplifier(this.root_tone);

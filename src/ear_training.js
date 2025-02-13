@@ -16,12 +16,17 @@ export default class EarTraining {
       const score = new Score(this.number_of_questions);
       this.#set_game_mode();
       for (let i = 0; i < this.number_of_questions; i++) {
-        const quiz = new Quiz(this.current_notes_and_frequencies, this.#set_volume(), i, this.#set_time_limit());
+        const quiz = new Quiz(
+          this.current_notes_and_frequencies,
+          this.#set_volume(),
+          i,
+          this.#set_time_limit(),
+        );
         const result = await quiz.set();
         score.save_result(result);
         score.print_message();
       }
-      score.print_final_score(this.number_of_questions);
+      score.print(this.number_of_questions);
     } catch (err) {
       console.error(err.message);
       console.error(err.stack);

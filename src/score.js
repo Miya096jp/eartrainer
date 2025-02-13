@@ -15,7 +15,7 @@ export default class Score {
     console.log(this.message);
   }
 
-  print_final_score(number_of_questions) {
+  print(number_of_questions) {
     console.log("<Result>");
     console.log(`${this.point}/${number_of_questions}`);
     console.log(this.score_sheet.join("\n"));

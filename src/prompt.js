@@ -2,11 +2,11 @@ import pkg from "enquirer";
 const { Select } = pkg;
 
 export default class Prompt {
-  constructor(choices, i, answer, time_limit) {
+  constructor(choices, i, correct_choice, time_limit) {
     this.prompt = null;
     this.choices = choices;
     this.question_no = i + 1;
-    this.answer = answer;
+    this.correct_choice = correct_choice;
     this.time_limit = time_limit;
   }
 
@@ -19,11 +19,11 @@ export default class Prompt {
     if (result === "timeup") {
       await this.prompt.cancel();
       return {
-        message: `Timeup! the correct answer is ${this.answer}`,
-        score: `Q${this.question_no}:×(${this.answer})`,
+        message: `Timeup! the correct answer is ${this.correct_choice}`,
+        score: `Q${this.question_no}:×(${this.correct_choice})`,
         point: 0,
       };
-    } else if (result === this.answer) {
+    } else if (result === this.correct_choice) {
       return {
         message: "correct!",
         score: `Q${this.question_no}:○`,
@@ -31,8 +31,8 @@ export default class Prompt {
       };
     } else {
       return {
-        message: `incorrect! the correct answer is ${this.answer}`,
-        score: `Q${this.question_no}:×(${this.answer})`,
+        message: `incorrect! the correct answer is ${this.correct_choice}`,
+        score: `Q${this.question_no}:×(${this.correct_choice})`,
         point: 0,
       };
     }
@@ -46,8 +46,8 @@ export default class Prompt {
   }
 
   async #run_prompt() {
-    const user_answer = await this.prompt.run();
-    return user_answer;
+    const user_choice = await this.prompt.run();
+    return user_choice;
   }
 
   #timer(time_limit) {

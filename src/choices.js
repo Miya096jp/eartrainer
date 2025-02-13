@@ -1,11 +1,11 @@
 export default class Choices {
-  constructor(answer, incorrect_choices) {
-    this.answer = answer;
+  constructor(correct_choice, incorrect_choices) {
+    this.correct_choice = correct_choice;
     this.incorrect_choices = incorrect_choices;
   }
 
   build() {
-    let choices = [this.answer];
+    let choices = [this.correct_choice];
     while (choices.length < 4) {
       const incorrect_choice =
         this.incorrect_choices[

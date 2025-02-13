@@ -2,9 +2,8 @@ export default class NoteAndFrequency {
   constructor(current_notes_and_frequencies) {
     this.current_notes_and_frequencies = current_notes_and_frequencies;
     this._root_freq = null;
-    this._answer_note = null;
-    this._answer_note_freq = null;
-    this._extra_notes = null;
+    this._correct_note = null;
+    this._incorrect_notes = null;
     this.#extract();
   }
 
@@ -12,22 +11,22 @@ export default class NoteAndFrequency {
     return this._root_freq;
   }
 
-  get answer_note() {
-    return this._answer_note;
+  get correct_note() {
+    return this._correct_note;
   }
 
-  get answer_freq() {
-    return this._answer_freq;
+  get correct_freq() {
+    return this._correct_freq;
   }
 
-  get extra_notes() {
-    return this._extra_notes;
+  get incorrect_notes() {
+    return this._incorrect_notes;
   }
 
   #extract() {
     this.#extract_root_frequency();
-    this.#extract_answer_note_and_frequency();
-    this.#extract_extra_notes();
+    this.#extract_correct_note_and_frequency();
+    this.#extract_incorrect_notes();
   }
 
   #extract_root_frequency() {
@@ -39,24 +38,25 @@ export default class NoteAndFrequency {
     this._root_freq = Object.values(root_note_and_frequency)[0];
   }
 
-  #extract_answer_note_and_frequency() {
-    const candidates = this.#extract_extra_notes_and_frequencies();
-    const extra_note_and_frequency =
+  #extract_correct_note_and_frequency() {
+    const candidates = this.#remove_root_from_notes_and_frequencies();
+    const correct_note_and_frequency =
       candidates[Math.floor(Math.random() * candidates.length)];
-    this._answer_note = Object.keys(extra_note_and_frequency)[0];
-    this._answer_freq = Object.values(extra_note_and_frequency)[0];
+    this._correct_note = Object.keys(correct_note_and_frequency)[0];
+    this._correct_freq = Object.values(correct_note_and_frequency)[0];
   }
 
-  #extract_extra_notes() {
-    const extra_notes_and_frequencies = this.#extract_extra_notes_and_frequencies();
-    this._extra_notes = extra_notes_and_frequencies.map(
-      (extra_note_and_frequency) => {
-        return Object.keys(extra_note_and_frequency)[0];
+  #extract_incorrect_notes() {
+    const incorrect_notes_and_frequencies =
+      this.#remove_root_from_notes_and_frequencies();
+    this._incorrect_notes = incorrect_notes_and_frequencies.map(
+      (incorrect_note_and_frequency) => {
+        return Object.keys(incorrect_note_and_frequency)[0];
       },
     );
   }
 
-  #extract_extra_notes_and_frequencies() {
+  #remove_root_from_notes_and_frequencies() {
     return this.current_notes_and_frequencies.filter((note_and_frequency) => {
       return !Object.keys(note_and_frequency).includes("Root");
     });
